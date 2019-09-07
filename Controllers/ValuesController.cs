@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using TodoApi.Model;
 
 namespace TodoApi.Controllers
 {
@@ -11,18 +13,20 @@ namespace TodoApi.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private IConfiguration _configuration;
+        //private IConfiguration _configuration;
+        private IOptionsSnapshot<ConfigServerData> IConfigServerData { get; set; }
 
-        public ValuesController(IConfiguration Configuration) {
-            _configuration = Configuration;
+        public ValuesController(IConfiguration Configuration,IOptionsSnapshot<ConfigServerData> configServerData) {
+            //_configuration = Configuration;
+            IConfigServerData = configServerData;
         }
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
 
-            
-            return new string[] { _configuration["app"], _configuration["config"], _configuration["data"],  _configuration["message"] };
+            var data = IConfigServerData.Value;
+            return new string[] { data.app, data.config, data.data, data.message };
         
         }
 
