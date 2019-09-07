@@ -1,0 +1,11 @@
+---
+applications:
+- name: Steeltoe-joshi
+  memory: 512M
+  disk_quota: 1024M
+  buildpacks:
+   - dotnet_core_buildpack
+  env:
+    ASPNETCORE_ENVIRONMENT: development
+  services:
+   - joshiConfigServer
